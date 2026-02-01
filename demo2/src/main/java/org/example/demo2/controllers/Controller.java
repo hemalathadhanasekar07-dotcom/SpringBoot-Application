@@ -10,50 +10,61 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 public class Controller {
+
     private final StudentRepository studentRepository;
+
     public Controller(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    @GetMapping("/add_")
-    public int add(
-            @RequestParam int a,
-            @RequestParam int b) {
+    @GetMapping("/add")
+    public int add(@RequestParam int a, @RequestParam int b) {
         return a + b;
     }
 
-    @GetMapping("/mul_")
-    public int mul(
-            @RequestParam int a,
-            @RequestParam int b){
-        return a * b ;
+    @GetMapping("/mul")
+    public int mul(@RequestParam int a, @RequestParam int b) {
+        return a * b;
     }
 
-    @GetMapping("/students")
+    // GET ALL STUDENTS
+    @GetMapping
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
-    @PostMapping("/createstudent")
-    public Student createuser(@RequestBody Student user){
-         return studentRepository.save(user);
 
+    // CREATE STUDENT
+    @PostMapping
+    public Student createStudent(@RequestBody Student student) {
+        return studentRepository.save(student);
     }
+
+    // GET BY ID
     @GetMapping("/{id}")
-    public Student getUserById(@PathVariable Long id){
-        return studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with this id:"+ id));
+    public Student getStudentById(@PathVariable Long id) {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
+
+    // UPDATE
     @PutMapping("/{id}")
-    public Student UpdateUser(@PathVariable long id,@RequestBody Student user){
-        Student userdata= studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with this id:"+ id));
+    public Student updateStudent(@PathVariable long id, @RequestBody Student user) {
+        Student userdata = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
         userdata.setEmail(user.getEmail());
         userdata.setName(user.getName());
+
         return studentRepository.save(userdata);
     }
+
+    // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteuser(@PathVariable long id){
-        Student userdata=studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with this id:"+ id));
+    public ResponseEntity<Object> deleteStudent(@PathVariable long id) {
+        Student userdata = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
         studentRepository.delete(userdata);
         return ResponseEntity.ok().build();
     }
-
 }

@@ -2,27 +2,32 @@ package org.example.demo2.Security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY_STRING =
-            "B7A5FZDd0kswmZ2MP5atGN4Cm17FKfpb";
+    @Value("${jwt.secret}")
+    private String secret;
+    @Value("${jwt.expiration}")
+    private long expiration;
 
-    private final SecretKey SECRET_KEY =
-            Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
-
-    public String generateToken(UserDetails userDetails) {
-        return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
-                .signWith(SECRET_KEY, Jwts.SIG.HS256)
-                .compact();
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
+
+         public String generateToken(UserDetails userDetails) {
+            return Jwts.builder()
+                    .subject(userDetails.getUsername())
+                    .issuedAt(new Date())
+                    .expiration(new Date(System.currentTimeMillis() + expiration))
+                    .signWith(getSigningKey(), Jwts.SIG.HS256)
+                    .compact();
+        }
 }

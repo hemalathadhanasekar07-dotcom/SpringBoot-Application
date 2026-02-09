@@ -18,13 +18,19 @@ public class Student {
     private String email;
     private String username;
     private String password;
+    private String role;
+    private String createdBy;
+    private String modifiedBy;
 
     public Student() {}
-    public Student(String name, String email,String username,String password) {
+    public Student(String name, String email,String username,String password,String role,String createdBy,String modifiedBy) {
         this.name = name;
         this.email = email;
         this.username=username;
         this.password=password;
+        this.role=role;
+        this.createdBy=createdBy;
+        this.modifiedBy=modifiedBy;
     }
 
 }

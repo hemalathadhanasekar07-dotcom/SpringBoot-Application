@@ -2,6 +2,7 @@ package org.example.demo2.Security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -10,21 +11,24 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String secret;
+
     @Value("${jwt.expiration}")
     private long expiration;
-
-    private Object JWT_SECRET;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(UserDetails userDetails) {
+
+        log.info("Generating JWT token for user {}", userDetails.getUsername());
+
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
@@ -34,11 +38,17 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-      return  extractUsername(token).equals(userDetails.getUsername());
 
+        log.debug("Validating token for user {}", userDetails.getUsername());
+
+        return extractUsername(token).equals(userDetails.getUsername());
     }
+
     public String extractUsername(String token){
-         return Jwts.parser()
+
+        log.trace("Extracting username from token");
+
+        return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)

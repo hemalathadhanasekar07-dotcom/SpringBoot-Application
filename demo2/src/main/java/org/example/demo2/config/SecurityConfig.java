@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/students").permitAll()
                         .requestMatchers("/students/**").authenticated()
                         .anyRequest().permitAll())
-               // .formLogin(form ->form.permitAll().defaultSuccessUrl("/dashboard"))
+                // .formLogin(form ->form.permitAll().defaultSuccessUrl("/dashboard"))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,4 +1,4 @@
-package org.example.demo2.Security;
+package org.example.demo2.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

@@ -2,7 +2,7 @@ package org.example.demo2.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2.entities.Student;
-import org.example.demo2.Security.JwtUtil;
+import org.example.demo2.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

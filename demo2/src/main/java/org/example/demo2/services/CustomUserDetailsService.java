@@ -1,12 +1,8 @@
-package org.example.demo2.Services;
+package org.example.demo2.services;
 
 import org.example.demo2.entities.Student;
 import org.example.demo2.repositories.StudentRepository;
-import org.springframework.beans.factory.BeanRegistrarDslMarker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.security.autoconfigure.SecurityProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 @Component
 @Service

@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/students").permitAll()
 
                         // ADMIN only: get all students
-                        .requestMatchers(HttpMethod.GET, "/students").hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.GET, "/students").hasRole("ADMIN")
 
                         // other student APIs require login (USER or ADMIN)
                         .requestMatchers("/students/**").authenticated()

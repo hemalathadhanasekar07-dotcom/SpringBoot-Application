@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2.model.StudentDTO;
 import org.example.demo2.services.StudentService;
-
-import org.example.demo2.entities.Student;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,25 +21,26 @@ public class Controller {
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents() {
+    public ResponseEntity<List<StudentDTO>> getAllStudents() {
         log.info("Fetching all students");
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> createStudent(
+            @Valid @RequestBody StudentDTO studentDTO) {
 
         log.info("Creating student with email {}", studentDTO.getEmail());
 
-        Student savedStudent = studentService.createStudent(studentDTO);
+        StudentDTO savedStudent = studentService.createStudent(studentDTO);
 
-        log.info("Student created successfully with id {}", savedStudent.getId());
+        log.info("Student created successfully");
 
         return ResponseEntity.status(201).body(savedStudent);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long id) {
 
         log.info("Fetching student with id {}", id);
 
@@ -50,8 +48,9 @@ public class Controller {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
-                                                 @Valid @RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> updateStudent(
+            @PathVariable Long id,
+            @Valid @RequestBody StudentDTO studentDTO) {
 
         log.info("Updating student with id {}", id);
 
